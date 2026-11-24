@@ -1,0 +1,6 @@
+{
+  "name": "KHATAVERSE",
+  "description": "Speak Naturally. Account Intelligently. An AI-powered voice-first bookkeeping and business intelligence co-pilot for Indian kirana shopkeepers.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

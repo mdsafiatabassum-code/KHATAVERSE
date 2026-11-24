@@ -1,0 +1,256 @@
+import { getLocalIsoDate } from '../engine/ledger';
+import { KhataCustomer, KhataTransaction } from '../types/khata';
+
+export function createDemoDataset(): {
+  customers: KhataCustomer[];
+  transactions: KhataTransaction[];
+} {
+  const now = Date.now();
+  const isoAt = (daysAgo: number, hour = 11, min = 30) => {
+    const d = new Date(now - daysAgo * 86_400_000);
+    d.setHours(hour, min, 0, 0);
+    return d.toISOString();
+  };
+
+  const customers: KhataCustomer[] = [
+    {
+      id: 'cust_ramesh_kumar',
+      name: 'Ramesh Kumar',
+      phone: '+91 98450 11223',
+      aliases: ['Ramesh K', 'Ramesh'],
+      created_at: isoAt(14, 9, 0),
+      reminder_opt_in: true,
+    },
+    {
+      id: 'cust_ramesh_sharma',
+      name: 'Ramesh Sharma',
+      phone: '+91 98450 44556',
+      aliases: ['Sharma ji', 'Ramesh S'],
+      created_at: isoAt(12, 10, 15),
+      reminder_opt_in: true,
+    },
+    {
+      id: 'cust_suresh',
+      name: 'Suresh',
+      phone: '+91 99001 77889',
+      aliases: ['Suresh bhai'],
+      created_at: isoAt(10, 12, 0),
+      reminder_opt_in: false,
+    },
+    {
+      id: 'cust_ayesha',
+      name: 'Ayesha',
+      phone: '+91 97412 33445',
+      aliases: ['Ayesha ji'],
+      created_at: isoAt(9, 15, 20),
+      reminder_opt_in: true,
+    },
+    {
+      id: 'cust_manjunath',
+      name: 'Manjunath',
+      phone: '+91 96112 88990',
+      aliases: ['Manju', 'Manjunath anna'],
+      created_at: isoAt(8, 17, 10),
+      reminder_opt_in: true,
+    },
+    {
+      id: 'cust_priya_sharma',
+      name: 'Priya Sharma',
+      phone: '+91 98860 55667',
+      aliases: ['Priya'],
+      created_at: isoAt(7, 11, 45),
+      reminder_opt_in: true,
+    },
+  ];
+
+  // Note: Ramesh Kumar starts with ₹0 net outstanding (450 credit - 450 payment last week)
+  // so running the 5-step hackathon demo scenario results in exact ₹40 outstanding!
+  const transactions: KhataTransaction[] = [
+    {
+      id: 'tx_demo_01',
+      customer_id: 'cust_ramesh_kumar',
+      customer_name: 'Ramesh Kumar',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 450,
+      date: getLocalIsoDate(-5),
+      created_at: isoAt(5, 10, 10),
+      original_utterance: 'Ramesh Kumar ka 450 udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_02',
+      customer_id: 'cust_ramesh_kumar',
+      customer_name: 'Ramesh Kumar',
+      type: 'PAYMENT',
+      direction: 'PAYMENT',
+      amount: 450,
+      date: getLocalIsoDate(-3),
+      created_at: isoAt(3, 18, 20),
+      original_utterance: 'Ramesh Kumar ne 450 de diye',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_03',
+      customer_id: 'cust_ramesh_sharma',
+      customer_name: 'Ramesh Sharma',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 1450,
+      date: getLocalIsoDate(-4),
+      created_at: isoAt(4, 11, 5),
+      original_utterance: 'Sharma ji ko 1450 ka rashan udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_04',
+      customer_id: 'cust_ramesh_sharma',
+      customer_name: 'Ramesh Sharma',
+      type: 'PAYMENT',
+      direction: 'PAYMENT',
+      amount: 500,
+      date: getLocalIsoDate(-1),
+      created_at: isoAt(1, 16, 40),
+      original_utterance: 'Sharma ji ne kal 500 diye',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_05',
+      customer_id: 'cust_suresh',
+      customer_name: 'Suresh',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 2100,
+      date: getLocalIsoDate(-6),
+      created_at: isoAt(6, 9, 45),
+      original_utterance: 'Suresh bhai ka 2100 udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_06',
+      customer_id: 'cust_suresh',
+      customer_name: 'Suresh',
+      type: 'PAYMENT',
+      direction: 'PAYMENT',
+      amount: 700,
+      date: getLocalIsoDate(-2),
+      created_at: isoAt(2, 13, 15),
+      original_utterance: 'Suresh ne 700 UPI kiya',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_07',
+      customer_id: 'cust_ayesha',
+      customer_name: 'Ayesha',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 680,
+      date: getLocalIsoDate(-2),
+      created_at: isoAt(2, 17, 50),
+      original_utterance: 'Ayesha ka 680 udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_08',
+      customer_id: 'cust_ayesha',
+      customer_name: 'Ayesha',
+      type: 'PAYMENT',
+      direction: 'PAYMENT',
+      amount: 400,
+      date: getLocalIsoDate(0),
+      created_at: isoAt(0, 9, 15),
+      original_utterance: 'Ayesha ne aaj 400 diye',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_09',
+      customer_id: 'cust_manjunath',
+      customer_name: 'Manjunath',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 1850,
+      date: getLocalIsoDate(-1),
+      created_at: isoAt(1, 14, 30),
+      original_utterance: 'Manjunath avara 1850 udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_10',
+      customer_id: 'cust_manjunath',
+      customer_name: 'Manjunath',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 520,
+      date: getLocalIsoDate(0),
+      created_at: isoAt(0, 10, 5),
+      original_utterance: 'Manjunath anna 520 rice bag credit',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_11',
+      customer_id: 'cust_priya_sharma',
+      customer_name: 'Priya Sharma',
+      type: 'CREDIT',
+      direction: 'CREDIT',
+      amount: 920,
+      date: getLocalIsoDate(-3),
+      created_at: isoAt(3, 12, 25),
+      original_utterance: 'Priya Sharma ka 920 udhaar',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+    {
+      id: 'tx_demo_12',
+      customer_id: 'cust_priya_sharma',
+      customer_name: 'Priya Sharma',
+      type: 'PAYMENT',
+      direction: 'PAYMENT',
+      amount: 600,
+      date: getLocalIsoDate(-1),
+      created_at: isoAt(1, 19, 10),
+      original_utterance: 'Priya ne 600 payment kiya',
+      status: 'CONFIRMED',
+      corrected_from: null,
+    },
+  ];
+
+  return { customers, transactions };
+}
+
+export const HACKATHON_DEMO_STEPS = [
+  {
+    step: 1,
+    utterance: 'Ramesh ka 340 udhaar.',
+    expected: 'Asks Ramesh Kumar vs Ramesh Sharma, then records ₹340 credit.',
+  },
+  {
+    step: 2,
+    utterance: 'Ramesh ne 200 diye.',
+    expected: 'Records ₹200 payment for Ramesh Kumar.',
+  },
+  {
+    step: 3,
+    utterance: 'Nahi 200 nahi 300 diye.',
+    expected: 'Khata Echo edits previous payment from ₹200 to ₹300.',
+  },
+  {
+    step: 4,
+    utterance: 'Ramesh ka total kitna baaki hai?',
+    expected: 'Calculates ₹40 outstanding (₹340 − ₹300).',
+  },
+  {
+    step: 5,
+    utterance: 'Ramesh ka 500 udhaar.',
+    expected: 'Triggers disambiguation: "Ramesh Kumar or Ramesh Sharma?"',
+  },
+];
